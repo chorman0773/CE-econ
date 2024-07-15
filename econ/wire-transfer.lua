@@ -12,7 +12,7 @@ function module.send_wire_payment(amount, routing_code, account_number, from_rou
 
     if config.routing_codes and config.routing_codes[routing_code] then
         routing_dest = config.routing_codes[routing_code];
-    elseif config.wire_relay
+    elseif config.wire_relay then
         routing_dest = config.wire_relay;
     else 
         return false;
