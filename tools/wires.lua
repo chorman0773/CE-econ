@@ -36,7 +36,7 @@ parallel.waitForAny(function()
 until false
 end, function()
     repeat
-        local computer, message, protocol = rednet.recieve();
+        local computer, message, protocol = rednet.receive();
         if protocol == "ad-payment:wire-transfer" then
             -- {routing_code = routing_code, amount = amount, account_number = account_number, from_routing_code = config.local_routing_code}
             local rounting_code = message.routing_code;
