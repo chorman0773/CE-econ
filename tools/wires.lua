@@ -39,18 +39,18 @@ end, function()
         local computer, message, protocol = rednet.receive();
         if protocol == "ad-payment:wire-transfer" then
             -- {routing_code = routing_code, amount = amount, account_number = account_number, from_routing_code = config.local_routing_code}
-            local rounting_code = message.routing_code;
+            local routing_code = message.routing_code;
             local amount = message.amount;
             local account_number = message.account_number;
             local from_routing_code = message.from_routing_code;
 
             if routing_code == config.local_routing_code then
                 wire.recieve_wire_payment(amount, account_number, from_routing_code);
-                rednet.send(computer, {rounting_code = routing_code, account_number = account_number}, "ad-payment:wire-transfer/ack");
+                rednet.send(computer, {routing_code = routing_code, account_number = account_number}, "ad-payment:wire-transfer/ack");
             else
                 waiting_forward = computer;
-                if not wire.send_wire_payment(amount, rounting_code, account_number, from_routing_code) then
-                    rednet.send(computer, {rounting_code = routing_code, account_number = account_number,why = "No Route"}, "ad-payment:wire-transfer/nak");
+                if not wire.send_wire_payment(amount, routing_code, account_number, from_routing_code) then
+                    rednet.send(computer, {routing_code = routing_code, account_number = account_number,why = "No Route"}, "ad-payment:wire-transfer/nak");
                 end
             end
             
