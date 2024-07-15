@@ -10,7 +10,7 @@ local waiting_forward = nil;
 parallel.waitForAny(function()
     repeat
     local res, error =  pcall(function()
-            while ~last_ack do
+            while not last_ack do
                 sleep(1);
             end
             write("Wire Amount>")
@@ -49,7 +49,7 @@ end, function()
                 rednet.send(computer, {rounting_code = routing_code, account_number = account_number}, "ad-payment:wire-transfer/ack");
             else
                 waiting_forward = computer;
-                if ~wire.send_wire_payment(amount, rounting_code, account_number, from_routing_code) then
+                if not wire.send_wire_payment(amount, rounting_code, account_number, from_routing_code) then
                     rednet.send(computer, {rounting_code = routing_code, account_number = account_number,why = "No Route"}, "ad-payment:wire-transfer/nak");
                 end
             end
