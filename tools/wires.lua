@@ -30,7 +30,7 @@ parallel.waitForAny(function()
     end
     );
 
-    if res then
+    if not res then
         printError(error.."\n");
     end
 until false
