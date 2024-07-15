@@ -23,7 +23,7 @@ function module.send_wire_payment(amount, routing_code, account_number, from_rou
 end
 
 function module.recieve_wire_payment(amount, account_number, from_routing_code)
-    local file = fs.open(config.ad_log_directory .. "/wire-logs");
+    local file = fs.open(config.ad_log_directory .. "/wire-logs", "a");
     file.writeLine("WIRE FROM "..from_routing_code.." "..amount.." TO "..account_number);
     file.close();
 end
