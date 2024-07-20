@@ -3,6 +3,19 @@ local module = {}
 local config = require"config";
 
 function module.send_wire_payment(amount, routing_code, account_number, from_routing_code)
+    if not from_routing_code then
+        local file = fs.open(config.ad_log_directory .. "/wire-logs", "a");
+        local ts = os.epoch("ingame");
+        file.writeLine("WIRE TO "..routing_code.." "..amount.." TO ".." (TIMESTAMP "..ts..")");
+        file.close();
+    else
+        local file = fs.open(config.ad_log_directory .. "/wire-logs", "a");
+        local ts = os.epoch("ingame");
+        file.writeLine("WIRE RELAY FROM "..from_routing_code.." "..amount.." TO "..routing_code..":"..account_number.." (TIMESTAMP "..ts..")");
+        file.close();
+    end
+
+
     from_routing_code = from_routing_code or config.local_routing_code;
     local routing_dest;
 
@@ -24,7 +37,8 @@ end
 
 function module.recieve_wire_payment(amount, account_number, from_routing_code)
     local file = fs.open(config.ad_log_directory .. "/wire-logs", "a");
-    file.writeLine("WIRE FROM "..from_routing_code.." "..amount.." TO "..account_number);
+    local ts = os.epoch("ingame");
+    file.writeLine("WIRE FROM "..from_routing_code.." "..amount.." TO "..account_number.." (TIMESTAMP "..ts..")");
     file.close();
 end
 
