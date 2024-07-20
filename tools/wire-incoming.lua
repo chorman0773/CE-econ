@@ -1,6 +1,6 @@
 local wire = require"wire-transfer";
 local config = require"config";
-local waiting_forward = {};
+local waiting_forward = nil;
 repeat
     local computer, message, protocol = rednet.receive();
     if protocol == "ad-payment:wire-transfer" then
